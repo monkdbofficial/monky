@@ -96,7 +96,7 @@ fn seconds_format_description() -> Result<Vec<FormatItem<'static>>, time::error:
 /// Example output:
 /// ```
 /// use monky_utilities::date_format::iso_from_millis;
-/// let iso = iso_from_millis(1_602_123_456_789).unwrap();
+/// let iso = iso_from_millis(159_991_405_6789).unwrap();
 /// assert_eq!(iso, "2020-09-12T12:34:16.789Z");
 /// ```
 ///
@@ -133,10 +133,10 @@ pub fn iso_from_millis(epoch_millis: i128) -> Result<String, DateFormatError> {
 ///
 /// Example:
 /// ```
-/// # use monky_utilities::date_format::instant_from_iso;
+/// use monky_utilities::date_format::instant_from_iso;
 /// let (millis, odt) = instant_from_iso("2020-09-12T12:34:16.789Z").unwrap();
-/// assert_eq!(millis, 1_602_123_456_789);
-/// assert_eq!(odt.hour(), 12);
+/// assert_eq!(millis, 159_991_405_6789);
+/// assert_eq!(odt.offset().whole_seconds(), 0);
 /// ```
 ///
 /// # Errors

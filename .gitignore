@@ -1,1 +1,31 @@
-/target
+# Generated files by Cargo
+/target/
+
+# Rust/Cargo specific files
+**/*.rs.bk
+**/*.rs.old
+
+# Ignore Cargo.lock for libraries but keep for binaries
+# Uncomment if you are building a library
+# Cargo.lock
+
+# Ignore temporary files created by the Rust Language Server
+/.rustup/
+.rustfmt.toml
+
+# Ignore IDEs and editors
+/.vscode/
+/.idea/
+/*.swp
+*.swo
+*~
+.project
+.DS_Store
+
+# OS generated files
+Thumbs.db
+desktop.ini
+
+# Logs and temporary files
+*.log
+*.tmp

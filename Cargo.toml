@@ -1,6 +1,58 @@
-[package]
+[workspace]
+resolver = "2"
+members = [
+  "crates/*",
+]
+default-members = [
+  "crates/*",
+]
+
+[workspace.package]
 name = "monky"
 version = "0.1.0"
+authors = ["MonkDB Dev Team <dev@monkdb.com>"]
 edition = "2024"
+homepage = "https://monkdb.com/"
+license = "GPL-3.0"
+repository = "https://github.com/monkdbofficial/monky"
 
-[dependencies]
+[lints]
+workspace = true
+
+[workspace.dependencies]
+
+[profile.release]
+lto = "fat"
+codegen-units = 1
+
+# Inherit from release, because we are not rebuilding often,
+# and we don't want the huge binary sizes from debug builds.
+[profile.ci]
+inherits = "release"
+debug-assertions = true
+lto = false
+opt-level = 0
+
+# Inherits by default from release
+[profile.bench]
+lto = false
+debug = true
+codegen-units = 256 # restore default value for faster compilation
+
+# Profile for performance testing, which is faster to build than release.
+[profile.perf]
+inherits = "release"
+lto = false
+opt-level = 3
+codegen-units = 256  # restore default value for faster compilation
+
+[profile.dev]
+debug = "line-tables-only"
+
+# Override for fast sha256 hashing in dev builds
+[profile.dev.package.sha2]
+opt-level = 3
+
+# Override for fast sha256 hashing in ci builds
+[profile.ci.package.sha2]
+opt-level = 3

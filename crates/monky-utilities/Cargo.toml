@@ -9,6 +9,10 @@ repository = { workspace = true }
 description = "general utilities for the overall backend of monky"
 
 [dependencies]
+hmac = "0.12.1"
+sha2 = "0.10.9"
+sha1 = "0.10.6"
+hex = "0.4.3"
 
 [lints]
 workspace = true

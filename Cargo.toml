@@ -16,10 +16,15 @@ homepage = "https://monkdb.com/"
 license = "GPL-3.0"
 repository = "https://github.com/monkdbofficial/monky"
 
-[lints]
-workspace = true
-
 [workspace.dependencies]
+
+
+[workspace.lints.rust]
+# unsafe_code = "deny"
+unused_variables = "warn"
+
+[workspace.lints.clippy]
+all = "warn"
 
 [profile.release]
 lto = "fat"

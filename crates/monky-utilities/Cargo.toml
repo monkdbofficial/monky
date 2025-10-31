@@ -9,3 +9,6 @@ repository = { workspace = true }
 description = "general utilities for the overall backend of monky"
 
 [dependencies]
+
+[lints]
+workspace = true

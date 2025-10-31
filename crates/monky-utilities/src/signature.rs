@@ -3,33 +3,97 @@ use sha2::Sha256;
 use sha1::{Digest, Sha1};
 use hex;
 
+/// Constant header name used for passing content signature in requests or responses.
 pub const CONTENT_SIGNATURE_HEADER: &str = "X-Monky-Content-Signature";
 
+/// Type alias for HMAC using SHA256 hash function.
 type HmacSha256 = Hmac<Sha256>;
+
+/// Type alias for HMAC using SHA1 hash function.
 type HmacSha1 = Hmac<Sha1>;
 
-/// Compute HMAC-SHA256 of `content` using `key`.
-/// Returns lowercase hex string.
+/// Computes the HMAC-SHA256 of `content` using the provided `key`.
+///
+/// # Arguments
+///
+/// * `key` - A string slice that holds the secret key used for HMAC computation.
+/// * `content` - The message content to compute the HMAC over.
+///
+/// # Returns
+///
+/// On success, returns a lowercase hexadecimal string representing the HMAC-SHA256 signature.
+/// Returns an `HmacError` if the key is invalid.
+///
+/// # Example
+///
+/// ```
+/// let key = "my_secret_key";
+/// let data = "Important message";
+/// let signature = monky_utilities::signature::get_signature(key, data).unwrap();
+/// println!("Signature: {}", signature);
+/// ```
 pub fn get_signature(key: &str, content: &str) -> Result<String, HmacError> {
     get_hmac_sha256_bytes(key.as_bytes(), content.as_bytes())
         .map(|bytes| hex::encode(bytes))
 }
 
-/// Compute SHA-1 digest of `content`.
-/// Returns lowercase hex string.
+/// Computes the SHA-1 digest of the provided `content`.
+///
+/// # Arguments
+///
+/// * `content` - The message content to hash.
+///
+/// # Returns
+///
+/// A lowercase hexadecimal string representing the SHA-1 digest.
+///
+/// # Example
+///
+/// ```
+/// let digest = monky_utilities::signature::get_sha1("test message");
+/// println!("SHA-1 digest: {}", digest);
+/// ```
 pub fn get_sha1(content: &str) -> String {
     let digest = Sha1::digest(content.as_bytes());
     hex::encode(digest)
 }
 
-/// Compute HMAC-SHA1 of `content` using `key`.
-/// Returns lowercase hex string.
+/// Computes the HMAC-SHA1 of `content` using the provided `key`.
+///
+/// # Arguments
+///
+/// * `key` - A string slice that holds the secret key used for HMAC computation.
+/// * `content` - The message content to compute the HMAC over.
+///
+/// # Returns
+///
+/// On success, returns a lowercase hexadecimal string representing the HMAC-SHA1 signature.
+/// Returns an `HmacError` if the key is invalid.
+///
+/// # Example
+///
+/// ```
+/// let key = "my_key";
+/// let data = "Sample data";
+/// let hmac = monky_utilities::signature::get_hmac(key, data).unwrap();
+/// println!("HMAC-SHA1: {}", hmac);
+/// ```
 pub fn get_hmac(key: &str, content: &str) -> Result<String, HmacError> {
     get_hmac_sha1_bytes(key.as_bytes(), content.as_bytes())
         .map(|bytes| hex::encode(bytes))
 }
 
-/// Internal helper: compute HMAC-SHA256 and return raw bytes.
+
+/// Internal helper function that computes the raw HMAC-SHA256 bytes.
+/// 
+/// # Arguments
+/// 
+/// * `key` - Secret key bytes.
+/// * `content` - Message content bytes.
+/// 
+/// # Returns
+/// 
+/// A `Result` wrapping a vector of raw HMAC bytes, or an `HmacError` on invalid key.
 fn get_hmac_sha256_bytes(key: &[u8], content: &[u8]) -> Result<Vec<u8>, HmacError> {
     // new_from_slice only fails if key length is unacceptable for the implementation.
     let mut mac = HmacSha256::new_from_slice(key).map_err(|_| HmacError::InvalidKey)?;
@@ -39,7 +103,16 @@ fn get_hmac_sha256_bytes(key: &[u8], content: &[u8]) -> Result<Vec<u8>, HmacErro
     Ok(code_bytes.to_vec())
 }
 
-/// Internal helper: compute HMAC-SHA1 and return raw bytes.
+/// Internal helper function that computes the raw HMAC-SHA1 bytes.
+/// 
+/// # Arguments
+/// 
+/// * `key` - Secret key bytes.
+/// * `content` - Message content bytes.
+/// 
+/// # Returns
+/// 
+/// A `Result` wrapping a vector of raw HMAC bytes, or an `HmacError` on invalid key.
 fn get_hmac_sha1_bytes(key: &[u8], content: &[u8]) -> Result<Vec<u8>, HmacError> {
     let mut mac = HmacSha1::new_from_slice(key).map_err(|_| HmacError::InvalidKey)?;
     mac.update(content);
@@ -48,9 +121,10 @@ fn get_hmac_sha1_bytes(key: &[u8], content: &[u8]) -> Result<Vec<u8>, HmacError>
     Ok(code_bytes.to_vec())
 }
 
-/// Simple error type for HMAC operations.
+/// Enum representing errors that can occur during HMAC operations.
 #[derive(Debug)]
 pub enum HmacError {
+    /// The provided key was invalid for HMAC initialization.
     InvalidKey,
 }
 

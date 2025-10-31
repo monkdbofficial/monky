@@ -1,10 +1,10 @@
 [workspace]
 resolver = "2"
 members = [
-  "crates/*",
+  "crates/*"
 ]
 default-members = [
-  "crates/*",
+  "crates/*"
 ]
 
 [workspace.package]

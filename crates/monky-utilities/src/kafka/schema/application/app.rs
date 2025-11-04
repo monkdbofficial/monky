@@ -18,7 +18,7 @@
 use std::collections::HashMap;
 use once_cell::sync::Lazy;
 
-use crate::kafka::core::schema::{topic::Topic, topic_impl::ApplicationCommunication};
+use crate::kafka::schema::{topic::Topic, topic_impl::ApplicationCommunication};
 
 // Static default config shared by all topics
 static DEFAULT_COMPACT_CONFIG: Lazy<HashMap<String, String>> = Lazy::new(|| {

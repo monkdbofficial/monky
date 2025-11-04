@@ -15,43 +15,35 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-use crate::kafka::core::schema::topic::Topic;
+use crate::kafka::schema::{
+    topic::Topic, 
+    topic_impl::OpsApplication
+};
 
-pub struct OpsApplication;
+pub struct OpsTopic {
+    base: OpsApplication,
+    dataset_name: &'static str,
+}
 
-impl Topic for OpsApplication {
-
-    fn kind(&self) -> &str {
-        "ops"
-    }
-
-    fn domain(&self) -> &str {
-        "application"
+impl OpsTopic {
+    pub fn new(dataset_name: &'static str) -> Self {
+        Self { 
+            base: OpsApplication, 
+            dataset_name 
+        }
     }
 }
 
-pub struct ApplicationCommunication;
-
-impl Topic for ApplicationCommunication {
-
-    fn kind(&self) -> &str {
-        "application"
-    }
-
-    fn domain(&self) -> &str {
-        "communication"
-    }
+impl Topic for OpsTopic {
+    fn kind(&self) -> &str { self.base.kind() }
+    fn domain(&self) -> &str { self.base.domain() }
+    fn dataset(&self) -> &str { self.dataset_name }
 }
 
-pub struct SourceTwilio;
+pub fn ops_components() -> OpsTopic { 
+    OpsTopic::new("components") 
+}
 
-impl Topic for SourceTwilio {
-
-    fn kind(&self) -> &str {
-        "source"
-    }
-
-    fn domain(&self) -> &str {
-        "twilio"
-    }
+pub fn ops_logs() -> OpsTopic { 
+    OpsTopic::new("logs") 
 }

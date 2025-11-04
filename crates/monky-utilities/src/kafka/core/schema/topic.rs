@@ -38,7 +38,10 @@ impl AbstractTopic {
 pub trait Topic {
     fn kind(&self) -> &str;
     fn domain(&self) -> &str;
-    fn dataset(&self) -> &str;
+    
+    fn dataset(&self) -> &str {
+        ""
+    }
 
     fn config(&self) -> HashMap<String, String> {
         HashMap::new()

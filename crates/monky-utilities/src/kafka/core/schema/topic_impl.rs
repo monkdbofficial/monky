@@ -15,5 +15,43 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-pub mod topic;
-pub mod topic_impl;
+use crate::kafka::core::schema::topic::Topic;
+
+pub struct OpsApplication;
+
+impl Topic for OpsApplication {
+
+    fn kind(&self) -> &str {
+        "ops"
+    }
+
+    fn domain(&self) -> &str {
+        "application"
+    }
+}
+
+pub struct ApplicationCommunication;
+
+impl Topic for ApplicationCommunication {
+
+    fn kind(&self) -> &str {
+        "application"
+    }
+
+    fn domain(&self) -> &str {
+        "communication"
+    }
+}
+
+pub struct SourceTwilio;
+
+impl Topic for SourceTwilio {
+
+    fn kind(&self) -> &str {
+        "source"
+    }
+
+    fn domain(&self) -> &str {
+        "twilio"
+    }
+}

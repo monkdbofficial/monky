@@ -18,22 +18,40 @@
 use std::collections::HashMap;
 use std::env;
 
+use once_cell::sync::Lazy;
+
+static MONKY_NAMESPACE: Lazy<String> = Lazy::new(|| {
+    match env::var("MONKY_CORE_NAMESPACE") {
+        Ok(ns) if !ns.is_empty() => format!("{}.", ns),
+        _ => String::new(),
+    }
+});
+
+pub struct AbstractTopic;
+
+impl AbstractTopic {
+    fn namespace() -> &'static str {
+        &MONKY_NAMESPACE
+    }
+}
+
 pub trait Topic {
-    fn kind(&self) -> String;
-    fn domain(&self) -> String;
-    fn dataset(&self) -> String;
+    fn kind(&self) -> &str;
+    fn domain(&self) -> &str;
+    fn dataset(&self) -> &str;
 
     fn config(&self) -> HashMap<String, String> {
         HashMap::new()
     }
 
     fn name(&self) -> String {
-        let namespace = env::var("MONKY_CORE_NAMESPACE").unwrap_or_default();
-        let prefix = if namespace.is_empty() {
-            "".to_string()
-        } else {
-            format!("{}.", namespace)
-        };
-        format!("{}{}.{}.{}", prefix, self.kind(), self.domain(), self.dataset())
+        format!(
+            "{}{}.{}.{}",
+            AbstractTopic::namespace(),
+            self.kind(),
+            self.domain(),
+            self.dataset()
+        )
     }
 }
+

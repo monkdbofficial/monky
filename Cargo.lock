@@ -243,6 +243,7 @@ version = "0.1.0"
 dependencies = [
  "hex",
  "hmac",
+ "once_cell",
  "sha1",
  "sha2",
  "time",

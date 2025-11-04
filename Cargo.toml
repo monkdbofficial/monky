@@ -17,7 +17,7 @@ license = "GPL-3.0"
 repository = "https://github.com/monkdbofficial/monky"
 
 [workspace.dependencies]
-
+once_cell = "1.21.3"
 
 [workspace.lints.rust]
 # unsafe_code = "deny"

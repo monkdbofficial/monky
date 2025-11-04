@@ -17,13 +17,38 @@
 
 use crate::kafka::core::schema::topic::Topic;
 
+/// A Kafka topic representing the **Application Communication** domain.
+///
+/// This struct acts as a marker type implementing the [`Topic`] trait,
+/// providing static information about the topic's kind and domain.
+///
+/// # Overview
+///
+/// The `ApplicationCommunication` topic is used to handle messages related to
+/// communication events between applications, such as:
+/// - Notification dispatches
+/// - Application-to-application messages
+/// - Event-driven communication flows
+/// 
+/// # See also
+///
+/// - [`Topic`] — the trait defining the structure for Kafka topic identifiers.
+///
+/// # Notes
+///
+/// This struct contains no data and serves only as a type-level identifier.
 pub struct ApplicationCommunication;
 
 impl Topic for ApplicationCommunication {
+
+    /// Returns the high-level category of this topic.
+    /// For `ApplicationCommunication`, this always returns `"application"`.
     fn kind(&self) -> &str {
         "application"
     }
 
+    /// Returns the specific domain within the kind of this topic.
+    /// For `ApplicationCommunication`, this always returns `"communication"`.
     fn domain(&self) -> &str {
         "communication"
     }

@@ -15,6 +15,35 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-pub mod schema;
-pub mod application;
-pub mod operations;
+use crate::kafka::core::schema::{
+    topic::Topic, 
+    topic_impl::OpsApplication
+};
+
+pub struct OpsTopic {
+    base: OpsApplication,
+    dataset_name: &'static str,
+}
+
+impl OpsTopic {
+    pub fn new(dataset_name: &'static str) -> Self {
+        Self { 
+            base: OpsApplication, 
+            dataset_name 
+        }
+    }
+}
+
+impl Topic for OpsTopic {
+    fn kind(&self) -> &str { self.base.kind() }
+    fn domain(&self) -> &str { self.base.domain() }
+    fn dataset(&self) -> &str { self.dataset_name }
+}
+
+pub fn ops_components() -> OpsTopic { 
+    OpsTopic::new("components") 
+}
+
+pub fn ops_logs() -> OpsTopic { 
+    OpsTopic::new("logs") 
+}

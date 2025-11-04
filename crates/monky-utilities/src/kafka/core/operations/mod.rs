@@ -15,6 +15,4 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-pub mod schema;
-pub mod application;
-pub mod operations;
+pub mod ops;

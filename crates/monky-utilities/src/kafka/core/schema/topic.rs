@@ -36,8 +36,13 @@ impl AbstractTopic {
 }
 
 pub trait Topic {
-    fn kind(&self) -> &str;
-    fn domain(&self) -> &str;
+    fn kind(&self) -> &str {
+        ""
+    }
+
+    fn domain(&self) -> &str {
+        ""
+    }
     
     fn dataset(&self) -> &str {
         ""

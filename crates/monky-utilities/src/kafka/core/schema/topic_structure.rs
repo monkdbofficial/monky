@@ -15,8 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-pub mod signature;
-pub mod date_format;
-pub mod url_parse;
-pub mod uuid;
-pub mod kafka;
+use std::collections::HashMap;
+
+pub trait Topic {
+    fn name(&self) -> String;
+    fn kind(&self) -> String;
+    fn domain(&self) -> String;
+    fn dataset(&self) -> String;
+    fn config(&self) -> HashMap<String, String>;
+}

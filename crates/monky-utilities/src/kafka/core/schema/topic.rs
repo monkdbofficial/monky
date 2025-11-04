@@ -16,11 +16,24 @@
  */
 
 use std::collections::HashMap;
+use std::env;
 
 pub trait Topic {
-    fn name(&self) -> String;
     fn kind(&self) -> String;
     fn domain(&self) -> String;
     fn dataset(&self) -> String;
-    fn config(&self) -> HashMap<String, String>;
+
+    fn config(&self) -> HashMap<String, String> {
+        HashMap::new()
+    }
+
+    fn name(&self) -> String {
+        let namespace = env::var("MONKY_CORE_NAMESPACE").unwrap_or_default();
+        let prefix = if namespace.is_empty() {
+            "".to_string()
+        } else {
+            format!("{}.", namespace)
+        };
+        format!("{}{}.{}.{}", prefix, self.kind(), self.domain(), self.dataset())
+    }
 }

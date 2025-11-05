@@ -14,3 +14,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+
+
+use std::collections::HashMap;
+
+/// Key name used to enable specific Avro reader mode
+pub const SPECIFIC_AVRO_READER_CONFIG: &str = "specific.avro.reader";
+
+/// Merge or create a Kafka configuration map with Specific Avro reader enabled.
+///
+/// If `serializer_config` is `Some(map)`, it clones and augments it.
+/// If `None`, it creates a new config map.
+pub fn with_specific_avro_enabled(
+    serializer_config: Option<&HashMap<String, String>>,
+) -> HashMap<String, String> {
+    // clone existing config if provided
+    let mut config = match serializer_config {
+        Some(map) => map.clone(),
+        None => HashMap::new(),
+    };
+
+    // enable specific Avro reader flag
+    config.insert(SPECIFIC_AVRO_READER_CONFIG.to_string(), "true".to_string());
+
+    config
+}

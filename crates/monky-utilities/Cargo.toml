@@ -17,6 +17,8 @@ time = { version = "0.3.44", features = [ "formatting", "parsing"] }
 url = "2.5.7"
 uuid = { version = "1.18.1", features = ["serde", "v5"] }
 once_cell = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
 
 [lints]
 workspace = true

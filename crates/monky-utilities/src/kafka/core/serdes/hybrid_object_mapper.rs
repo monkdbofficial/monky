@@ -23,7 +23,7 @@ use std::collections::HashSet;
 use std::fmt;
 
 /// Control how type metadata is emitted.
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub enum TypeTagging {
     /// Do not emit type metadata.
     None,

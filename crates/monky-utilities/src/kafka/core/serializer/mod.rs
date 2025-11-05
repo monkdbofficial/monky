@@ -16,3 +16,4 @@
  */
 
 pub mod avro_array;
+pub mod kafka_serializer;

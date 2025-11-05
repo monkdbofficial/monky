@@ -21,6 +21,8 @@ pub mod serdes;
 
 use std::collections::HashMap;
 
+pub const MONKY_MAGIC_BYTE: u8 = 0x08;
+
 /// Key name used to enable specific Avro reader mode
 pub const SPECIFIC_AVRO_READER_CONFIG: &str = "specific.avro.reader";
 

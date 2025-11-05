@@ -48,7 +48,10 @@ pub enum DuplicateBehavior {
 /// assert_eq!(map.get("note").map(|s| s.as_str()), Some("hello world"));
 /// ```
 ///
-pub fn parse_url_encoded(payload: &str, dup_behavior: DuplicateBehavior) -> HashMap<String, String> {
+pub fn parse_url_encoded(
+    payload: &str,
+    dup_behavior: DuplicateBehavior,
+) -> HashMap<String, String> {
     // form_urlencoded::parse returns an iterator of (Cow<str>, Cow<str>) already decoded.
     let iter = form_urlencoded::parse(payload.as_bytes());
 

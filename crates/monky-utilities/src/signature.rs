@@ -15,10 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-use hmac::{Hmac, Mac};
-use sha2::Sha256;
-use sha1::{Digest, Sha1};
 use hex;
+use hmac::{Hmac, Mac};
+use sha1::{Digest, Sha1};
+use sha2::Sha256;
 
 /// Constant header name used for passing content signature in requests or responses.
 pub const CONTENT_SIGNATURE_HEADER: &str = "X-Monky-Content-Signature";
@@ -50,8 +50,7 @@ type HmacSha1 = Hmac<Sha1>;
 /// println!("Signature: {}", signature);
 /// ```
 pub fn get_signature(key: &str, content: &str) -> Result<String, HmacError> {
-    get_hmac_sha256_bytes(key.as_bytes(), content.as_bytes())
-        .map(|bytes| hex::encode(bytes))
+    get_hmac_sha256_bytes(key.as_bytes(), content.as_bytes()).map(|bytes| hex::encode(bytes))
 }
 
 /// Computes the SHA-1 digest of the provided `content`.
@@ -96,20 +95,18 @@ pub fn get_sha1(content: &str) -> String {
 /// println!("HMAC-SHA1: {}", hmac);
 /// ```
 pub fn get_hmac(key: &str, content: &str) -> Result<String, HmacError> {
-    get_hmac_sha1_bytes(key.as_bytes(), content.as_bytes())
-        .map(|bytes| hex::encode(bytes))
+    get_hmac_sha1_bytes(key.as_bytes(), content.as_bytes()).map(|bytes| hex::encode(bytes))
 }
 
-
 /// Internal helper function that computes the raw HMAC-SHA256 bytes.
-/// 
+///
 /// # Arguments
-/// 
+///
 /// * `key` - Secret key bytes.
 /// * `content` - Message content bytes.
-/// 
+///
 /// # Returns
-/// 
+///
 /// A `Result` wrapping a vector of raw HMAC bytes, or an `HmacError` on invalid key.
 fn get_hmac_sha256_bytes(key: &[u8], content: &[u8]) -> Result<Vec<u8>, HmacError> {
     // new_from_slice only fails if key length is unacceptable for the implementation.
@@ -121,14 +118,14 @@ fn get_hmac_sha256_bytes(key: &[u8], content: &[u8]) -> Result<Vec<u8>, HmacErro
 }
 
 /// Internal helper function that computes the raw HMAC-SHA1 bytes.
-/// 
+///
 /// # Arguments
-/// 
+///
 /// * `key` - Secret key bytes.
 /// * `content` - Message content bytes.
-/// 
+///
 /// # Returns
-/// 
+///
 /// A `Result` wrapping a vector of raw HMAC bytes, or an `HmacError` on invalid key.
 fn get_hmac_sha1_bytes(key: &[u8], content: &[u8]) -> Result<Vec<u8>, HmacError> {
     let mut mac = HmacSha1::new_from_slice(key).map_err(|_| HmacError::InvalidKey)?;
@@ -159,8 +156,8 @@ impl std::error::Error for HmacError {}
 mod tests {
     use super::*;
     use hmac::{Hmac, Mac};
-    use sha2::Sha256;
     use sha1::Sha1;
+    use sha2::Sha256;
 
     fn compute_expected_hmac_sha256(key: &[u8], content: &[u8]) -> String {
         let mut mac = Hmac::<Sha256>::new_from_slice(key).expect("Invalid key");
@@ -222,4 +219,3 @@ mod tests {
         assert!(!result.unwrap().is_empty());
     }
 }
-

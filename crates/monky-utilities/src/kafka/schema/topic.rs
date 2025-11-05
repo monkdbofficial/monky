@@ -20,11 +20,9 @@ use std::env;
 
 use once_cell::sync::Lazy;
 
-static MONKY_NAMESPACE: Lazy<String> = Lazy::new(|| {
-    match env::var("MONKY_CORE_NAMESPACE") {
-        Ok(ns) if !ns.is_empty() => format!("{}.", ns),
-        _ => String::new(),
-    }
+static MONKY_NAMESPACE: Lazy<String> = Lazy::new(|| match env::var("MONKY_CORE_NAMESPACE") {
+    Ok(ns) if !ns.is_empty() => format!("{}.", ns),
+    _ => String::new(),
 });
 
 pub struct AbstractTopic;
@@ -43,7 +41,7 @@ pub trait Topic {
     fn domain(&self) -> &str {
         ""
     }
-    
+
     fn dataset(&self) -> &str {
         ""
     }
@@ -62,4 +60,3 @@ pub trait Topic {
         )
     }
 }
-

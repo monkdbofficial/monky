@@ -21,9 +21,9 @@
 //! This module provides safe conversions with robust overflow checking,
 //! and detailed error handling via `DateFormatError`.
 
-use time::format_description::well_known::Rfc3339;
 use time::format_description::FormatItem;
-use time::{format_description, OffsetDateTime};
+use time::format_description::well_known::Rfc3339;
+use time::{OffsetDateTime, format_description};
 
 use std::fmt;
 
@@ -84,11 +84,11 @@ impl From<time::error::Format> for DateFormatError {
 ///
 /// Returns `DateFormatError::InvalidFormatDescription` if the format
 /// description string cannot be parsed.
-fn seconds_format_description() -> Result<Vec<FormatItem<'static>>, time::error::InvalidFormatDescription> {
+fn seconds_format_description()
+-> Result<Vec<FormatItem<'static>>, time::error::InvalidFormatDescription> {
     // pattern: YYYY-MM-DDTHH:MM:SS
     format_description::parse("[year]-[month]-[day]T[hour]:[minute]:[second]")
 }
-
 
 /// Converts epoch milliseconds into an ISO 8601 string with exactly three
 /// fractional digits and a trailing `Z`.
@@ -112,8 +112,8 @@ pub fn iso_from_millis(epoch_millis: i128) -> Result<String, DateFormatError> {
         .ok_or(DateFormatError::IntConversion)?;
 
     // Build OffsetDateTime from nanos (may fail if out of range)
-    let odt =
-        OffsetDateTime::from_unix_timestamp_nanos(nanos).map_err(|_| DateFormatError::InvalidTimestamp)?;
+    let odt = OffsetDateTime::from_unix_timestamp_nanos(nanos)
+        .map_err(|_| DateFormatError::InvalidTimestamp)?;
 
     // Format base (without fractional seconds)
     let fmt = seconds_format_description()?;
@@ -187,7 +187,10 @@ mod tests {
     fn test_iso_from_millis_overflow() {
         let large = i128::MAX / 1_000_000; // big enough to overflow nanos
         let result = iso_from_millis(large);
-        assert!(matches!(result, Err(DateFormatError::InvalidTimestamp) | Err(DateFormatError::IntConversion)));
+        assert!(matches!(
+            result,
+            Err(DateFormatError::InvalidTimestamp) | Err(DateFormatError::IntConversion)
+        ));
     }
 
     #[test]

@@ -20,7 +20,6 @@ use crate::kafka::schema::topic::Topic;
 pub struct OpsApplication;
 
 impl Topic for OpsApplication {
-
     fn kind(&self) -> &str {
         "ops"
     }
@@ -33,7 +32,6 @@ impl Topic for OpsApplication {
 pub struct ApplicationCommunication;
 
 impl Topic for ApplicationCommunication {
-
     fn kind(&self) -> &str {
         "application"
     }
@@ -46,7 +44,6 @@ impl Topic for ApplicationCommunication {
 pub struct SourceTwilio;
 
 impl Topic for SourceTwilio {
-
     fn kind(&self) -> &str {
         "source"
     }

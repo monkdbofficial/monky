@@ -25,7 +25,6 @@ pub struct SourceTopic {
     dataset: &'static str,
 }
 
-
 impl SourceTopic {
     pub fn new(domain: &'static str, dataset: &'static str) -> Self {
         Self {

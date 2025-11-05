@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-pub mod topic;
-pub mod topic_impl;
 pub mod application;
 pub mod operations;
 pub mod source;
+pub mod topic;
+pub mod topic_impl;

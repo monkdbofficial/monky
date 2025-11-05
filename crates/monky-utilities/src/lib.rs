@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-pub mod signature;
 pub mod date_format;
+pub mod kafka;
+pub mod signature;
 pub mod url_parse;
 pub mod uuid;
-pub mod kafka;

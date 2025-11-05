@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-use std::collections::HashMap;
 use once_cell::sync::Lazy;
+use std::collections::HashMap;
 
 use crate::kafka::schema::{topic::Topic, topic_impl::ApplicationCommunication};
 
@@ -76,7 +76,6 @@ impl Topic for AppTopic {
         }
     }
 }
-
 
 pub fn app_channels() -> AppTopic {
     AppTopic::new("channels")

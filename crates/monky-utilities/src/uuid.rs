@@ -145,7 +145,8 @@ mod tests {
 
         // Calling again on the same data should produce the same UUID
         let mut cursor2 = Cursor::new(data);
-        let uuid2 = uuid_from_reader(&mut cursor2).expect("Failed to create UUID from second reader");
+        let uuid2 =
+            uuid_from_reader(&mut cursor2).expect("Failed to create UUID from second reader");
         assert_eq!(uuid, uuid2);
     }
 }

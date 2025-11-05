@@ -16,6 +16,8 @@
  */
 
 pub mod serializer;
+pub mod deserializer;
+pub mod serdes;
 
 use std::collections::HashMap;
 

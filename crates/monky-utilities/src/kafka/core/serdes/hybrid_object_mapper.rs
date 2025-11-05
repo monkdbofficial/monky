@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-use serde::de::DeserializeOwned;
 use serde::Serialize;
+use serde::de::DeserializeOwned;
 use serde_json::{Map, Value};
 
 use std::collections::HashSet;
@@ -119,7 +119,10 @@ impl HybridObjectMapper {
     /// Like `deserialize`, but first strips an adjacent type wrapper if present.
     /// If input is `{"@type":"foo","value": ... }` this returns the deserialized `T`
     /// from the `value` field. Otherwise it tries to deserialize the whole payload.
-    pub fn deserialize_with_type<T: DeserializeOwned>(&self, s: &str) -> Result<T, serde_json::Error> {
+    pub fn deserialize_with_type<T: DeserializeOwned>(
+        &self,
+        s: &str,
+    ) -> Result<T, serde_json::Error> {
         let v: Value = serde_json::from_str(s)?;
         if let Value::Object(mut m) = v {
             if let Some(Value::String(_tn)) = m.get("@type") {
@@ -210,8 +213,8 @@ impl fmt::Display for HybridObjectMapper {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use serde_json::json;
     use serde::Serialize;
+    use serde_json::json;
 
     #[derive(Serialize)]
     struct Sample {
@@ -261,16 +264,17 @@ mod tests {
     #[test]
     fn avro_generic_array_serialize_works() {
         // Example: reuse AvroGenericArray from earlier
-        let arr = crate::kafka::core::serializer::avro_array::AvroGenericArray(vec![json!(1), json!("two"), json!(null)]);
+        let arr = crate::kafka::core::serializer::avro_array::AvroGenericArray(vec![
+            json!(1),
+            json!("two"),
+            json!(null),
+        ]);
         let mapper = HybridObjectMapper::new();
         // Ensure omit_null_values will remove the null element inside nested arrays too
         let value = mapper.to_json_value(&arr).unwrap();
         // Because AvroGenericArray serializes as an array, and we run remove_nulls,
         // the resulting Value should be an array without 'null' elements.
-        assert_eq!(
-            value,
-            Value::Array(vec![json!(1), json!("two")])
-        );
+        assert_eq!(value, Value::Array(vec![json!(1), json!("two")]));
     }
 
     #[test]

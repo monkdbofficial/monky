@@ -53,11 +53,7 @@ impl AvroGenericArray {
     ///   "@type": "<type_name>",
     ///   "value": [ ... array elements ... ]
     /// }
-    pub fn serialize_with_type<S>(
-        &self,
-        serializer: S,
-        type_name: &str,
-    ) -> Result<S::Ok, S::Error>
+    pub fn serialize_with_type<S>(&self, serializer: S, type_name: &str) -> Result<S::Ok, S::Error>
     where
         S: Serializer,
     {

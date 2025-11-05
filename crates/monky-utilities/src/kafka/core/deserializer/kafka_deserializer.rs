@@ -33,7 +33,6 @@ pub enum SerializationError {
     Json(serde_json::Error),
 }
 
-
 impl fmt::Display for SerializationError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
@@ -45,7 +44,6 @@ impl fmt::Display for SerializationError {
         }
     }
 }
-
 
 impl Error for SerializationError {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
@@ -62,7 +60,6 @@ impl From<serde_json::Error> for SerializationError {
         SerializationError::Json(e)
     }
 }
-
 
 impl From<std::str::Utf8Error> for SerializationError {
     fn from(e: std::str::Utf8Error) -> Self {
@@ -135,7 +132,8 @@ mod tests {
     fn deserialize_valid_payload_with_type_wrapper() {
         // Build a mapper configured to accept type-wrapped values (adjacent style)
         let mut mapper = HybridObjectMapper::new();
-        mapper.type_tagging = crate::kafka::core::serdes::hybrid_object_mapper::TypeTagging::Adjacent;
+        mapper.type_tagging =
+            crate::kafka::core::serdes::hybrid_object_mapper::TypeTagging::Adjacent;
         let des = KafkaDeserializer::with_mapper(mapper);
 
         // Prepare adjacent-wrapped JSON: {"@type":"com.example","value":{"k":"v"}}
@@ -144,7 +142,9 @@ mod tests {
         let mut buf = vec![0u8];
         buf.extend_from_slice(b"{\"@type\":\"com.example\",\"value\":{\"k\":\"v\"}}");
 
-        let v = des.deserialize("topic", &buf).expect("should parse wrapped");
+        let v = des
+            .deserialize("topic", &buf)
+            .expect("should parse wrapped");
         assert_eq!(v, json!({"k":"v"}));
     }
 

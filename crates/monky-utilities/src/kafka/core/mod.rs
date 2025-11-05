@@ -15,9 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-pub mod serializer;
 pub mod deserializer;
 pub mod serdes;
+pub mod serializer;
 
 use std::collections::HashMap;
 
